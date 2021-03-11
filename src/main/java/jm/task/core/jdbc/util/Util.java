@@ -7,6 +7,8 @@ import java.sql.Statement;
 import static java.lang.Class.*;
 
 public class Util {
+
+    private static  Util instance;
     // реализуйте настройку соеденения с БД
     private final static String URL = "jdbc:mysql://localhost:3306/mydbtest";
     private final static String URLFIXED =
@@ -16,16 +18,29 @@ public class Util {
     private final static String PASSWORD = "root";
     private Connection connection;
 
-    public Util() {
+
+
+     private Util() {
         try {
             connection = DriverManager.getConnection(URLFIXED, USERNAME, PASSWORD);
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
     }
+
     public Connection getConnection() {
         return connection;
     }
+
+    public static Util getInstance() throws SQLException {
+         if (instance == null){
+             instance = new Util();
+         } else if (instance.getConnection().isClosed()){
+             instance = new Util();
+         }
+         return instance;
+    }
+
 }
 
 
