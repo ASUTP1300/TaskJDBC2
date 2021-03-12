@@ -11,37 +11,39 @@ import java.util.List;
 public class UserDaoJDBCImpl implements UserDao {
     public void createUsersTable()  {
        Connection connect = null;
-        String sqlCommand = "CREATE TABLE IF NOT EXISTS Users (id INT PRIMARY KEY AUTO_INCREMENT," +
+       String sqlCommand = "CREATE TABLE IF NOT EXISTS Users (id INT PRIMARY KEY AUTO_INCREMENT," +
                 " name VARCHAR(32),  lastName VARCHAR(32), age smallint)";
-        Statement statement = null;
-        try {
-            connect = Util.getInstance().getConnection();
-            statement = connect.createStatement();
-            statement.executeUpdate(sqlCommand);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } finally {
-            try {
-                if (connect != null) {
-                    connect.close();
-                }
-                if (statement != null){
-                    statement.close();
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
+       Statement statement = null;
+
+       try {
+           connect = Util.getInstance().getConnection();
+           statement = connect.createStatement();
+           statement.executeUpdate(sqlCommand);
+       } catch (SQLException throwables) {
+           throwables.printStackTrace();
+       } finally {
+           try {
+               if (connect != null) {
+                   connect.close();
+               }
+               if (statement != null){
+                   statement.close();
+               }
+           } catch (SQLException throwables) {
+               throwables.printStackTrace();
+           }
+       }
     }
+
     public void dropUsersTable()  {
         Connection connect = null;
         String sqlCommand = "DROP TABLE IF EXISTS Users";
         Statement statement = null;
+
         try {
            connect = Util.getInstance().getConnection();
            statement = connect.createStatement();
            statement.executeUpdate(sqlCommand);
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -56,8 +58,8 @@ public class UserDaoJDBCImpl implements UserDao {
                 throwables.printStackTrace();
             }
         }
-
     }
+
     @Override
     public void saveUser(String name, String lastName, byte age) {
         Connection connect = null;
@@ -86,16 +88,17 @@ public class UserDaoJDBCImpl implements UserDao {
             }
         }
     }
+
     @Override
     public void removeUserById(long id) {
         Connection connect = null;
         String sqlCommand = "DROP FROM Users WHERE id = ?";
         PreparedStatement preparedStatement = null;
+
         try {
             connect = Util.getInstance().getConnection();
             preparedStatement = connect.prepareStatement(sqlCommand);
             preparedStatement.setLong(1, id);
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -111,6 +114,7 @@ public class UserDaoJDBCImpl implements UserDao {
             }
         }
     }
+
     @Override
     public List<User> getAllUsers() {
         Connection connect = null;
@@ -118,11 +122,11 @@ public class UserDaoJDBCImpl implements UserDao {
         Statement statement = null;
         ResultSet result = null;
         List<User> users = new ArrayList<>();
+
         try {
             connect = Util.getInstance().getConnection();
             statement = connect.createStatement();
             result = statement.executeQuery(sqlCommand);
-
             while (result.next()){
                 User user = new User();
                 user.setId(result.getLong("id"));
@@ -131,7 +135,6 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setAge(result.getByte("age"));
                 users.add(user);
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }  finally {
@@ -143,7 +146,7 @@ public class UserDaoJDBCImpl implements UserDao {
                     statement.close();
                 }
                 if (result!= null){
-                    result.close();;
+                    result.close();
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -151,11 +154,13 @@ public class UserDaoJDBCImpl implements UserDao {
         }
         return users;
     }
+
     @Override
     public void cleanUsersTable() {
         Connection connect = null;
         String sqlCommand = "TRUNCATE TABLE Users";
         Statement statement = null;
+
         try {
             connect = Util.getInstance().getConnection();
             statement = connect.createStatement();
@@ -174,6 +179,5 @@ public class UserDaoJDBCImpl implements UserDao {
                 throwables.printStackTrace();
             }
         }
-
     }
 }
