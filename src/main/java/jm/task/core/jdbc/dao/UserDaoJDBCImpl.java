@@ -35,11 +35,11 @@ public class UserDaoJDBCImpl implements UserDao {
        }
     }
 
+    @Override
     public void dropUsersTable()  {
         Connection connect = null;
         String sqlCommand = "DROP TABLE IF EXISTS Users";
         Statement statement = null;
-
         try {
            connect = Util.getInstance().getConnection();
            statement = connect.createStatement();
@@ -122,7 +122,6 @@ public class UserDaoJDBCImpl implements UserDao {
         Statement statement = null;
         ResultSet result = null;
         List<User> users = new ArrayList<>();
-
         try {
             connect = Util.getInstance().getConnection();
             statement = connect.createStatement();
@@ -154,13 +153,11 @@ public class UserDaoJDBCImpl implements UserDao {
         }
         return users;
     }
-
     @Override
     public void cleanUsersTable() {
         Connection connect = null;
         String sqlCommand = "TRUNCATE TABLE Users";
         Statement statement = null;
-
         try {
             connect = Util.getInstance().getConnection();
             statement = connect.createStatement();
