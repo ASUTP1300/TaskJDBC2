@@ -55,7 +55,7 @@ public class Util {
         return connection;
     }
 
-    public static  SessionFactory getSessionFactory() {
+    public  SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
@@ -71,7 +71,7 @@ public class Util {
         return sessionFactory;
     }
 
-    public static Util getInstance() throws SQLException {
+    public static Util getInstance()  {
          if (instance == null){
              instance = new Util();
          }
